@@ -108,10 +108,15 @@ Sign in with Apify OAuth when asked, or send `Authorization: Bearer <APIFY_TOKEN
 
 $2.40 per 1,000 domains on the Apify Free plan, $0.94 on Bronze and above, platform usage included, no start fee, failed domains free – see [lagenuina_agency/similarweb-scraper](https://apify.com/lagenuina_agency/similarweb-scraper).
 
-## More competitor research tools
+## More tools from Quelli di Carne Genuina
 
-- [Google Ads Transparency Scraper](https://apify.com/lagenuina_agency/google-ads-transparency-scraper): the ads your competitors run on Google.
-- [Google Trends Scraper](https://apify.com/lagenuina_agency/google-trends-scraper): how search interest for their brand moves.
+- **Ad intelligence:** [Google Ads Transparency](https://github.com/assa83/google-ads-transparency-api) · [Meta Ad Library](https://github.com/assa83/facebook-ad-library-api) · [TikTok Top Ads](https://github.com/assa83/tiktok-top-ads-api) · [LinkedIn Ad Library](https://github.com/assa83/linkedin-ad-library-api)
+- **Competitor & SEO research:** [Google Trends](https://github.com/assa83/google-trends-api-python) · [Google Play](https://github.com/assa83/google-play-scraper-api)
+- **Travel prices:** [Google Hotels](https://github.com/assa83/google-hotels-prices-api) · [Google Flights](https://github.com/assa83/google-flights-api)
+- **Retail prices:** [Woolworths & Coles](https://github.com/assa83/australian-supermarket-prices-api)
+- **Content & social data:** [YouTube Transcript](https://github.com/assa83/youtube-transcript-scraper-api) · [Medium](https://github.com/assa83/medium-scraper-api) · [Likee](https://github.com/assa83/likee-scraper-api)
+
+All actors: [apify.com/lagenuina_agency](https://apify.com/lagenuina_agency) · Tutorials: [assa83.github.io](https://assa83.github.io)
 
 ## Disclaimer
 
