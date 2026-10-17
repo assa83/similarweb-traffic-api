@@ -1,0 +1,135 @@
+{
+  "name": "Apify similarweb-scraper (monthly competitor traffic)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtDayOfMonth": 15,
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "26b73b5f-43a3-414d-aeee-0937a3b29e06",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/lagenuina_agency~similarweb-scraper/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"domains\": [\n    \"notion.so\",\n    \"clickup.com\",\n    \"asana.com\"\n  ]\n}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "7af3c762-86ba-41d4-87a2-01090a6863a7",
+      "name": "Run Apify actor",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        0
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Apify API token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(({ json: it }) => ({ json: {\n  date: new Date().toISOString().slice(0, 10), domain: it.domain, status: it.status, month: (it.snapshotDate || '').slice(0, 7),\n  visits: it.totalVisits, globalRank: it.globalRank, bounceRatePct: it.bounceRatePct, pagesPerVisit: it.pagesPerVisitNum,\n  visitDurationSec: it.avgVisitDurationSec, direct: it.trafficSources?.Direct, search: it.trafficSources?.Search,\n  social: it.trafficSources?.Social, topCountry: it.topCountries?.[0]?.countryCode,\n} }));"
+      },
+      "id": "74b6fa2a-e7b9-4cb8-8d96-6b2b78d0ba4e",
+      "name": "Flatten rows",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "YOUR_GOOGLE_SHEET_ID"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {}
+        },
+        "options": {}
+      },
+      "id": "8248202d-ccd2-4d0d-a299-c92d4fcda3f4",
+      "name": "Append to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        720,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Run Apify actor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Apify actor": {
+      "main": [
+        [
+          {
+            "node": "Flatten rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flatten rows": {
+      "main": [
+        [
+          {
+            "node": "Append to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "active": false
+}
